@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,7 +8,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,11 @@ class MainAppPage extends StatefulWidget {
 }
 
 class _MainAppPageState extends State<MainAppPage> {
-  Currency fromCurrency = Currency('SEK', 1.00);
-  Currency toCurrency;
   final amountController = TextEditingController();
+
+  Currency fromCurrency;
+  Currency toCurrency;
+  double amount = 0.0;
 
   @override
   void dispose() {
@@ -36,45 +39,86 @@ class _MainAppPageState extends State<MainAppPage> {
     super.dispose();
   }
 
-  void updateFromCurrency(Currency currency) => setState(() => amountController.text = currency.name);
-  void updateToCurrency(Currency currency) => setState(() => toCurrency = currency);
+  void updateFromCurrency(Currency currency) =>
+      setState(() => fromCurrency = currency);
+
+  void updateToCurrency(Currency currency) =>
+      setState(() => toCurrency = currency);
+
+  void onAmountChanged(String string) =>
+      setState(() => amount = double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
+
+  String getInputCurrencyName() => (fromCurrency != null) ? ' ' + fromCurrency.name : '';
+  String getResultCurrencyName() => (toCurrency != null) ? ' ' + toCurrency.name : '';
+  String getResultFormatted() => amount.toStringAsFixed(2) + getResultCurrencyName();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Currency Converter'),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(16),
-        child: Row(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Currency Converter'),
+        ),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: TextField(
-                controller: amountController,
-                decoration: InputDecoration(
-                  labelText: 'Amount',
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 200,
+                      child: TextField(
+                        controller: amountController,
+                        decoration: InputDecoration(
+                          hintText: 'Amount',
+                          suffixText: getInputCurrencyName(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: onAmountChanged,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 8),
-              child: CurrencyDropdown(
-                onCurrencyChanged: updateFromCurrency,
-                hint: 'From',
-              ),
-            ),
-            Icon(
-              Icons.arrow_right_alt,
-              size: 32,
-              color: Colors.grey[700],
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 8),
-              child: CurrencyDropdown(
-                onCurrencyChanged: updateToCurrency,
-                hint: 'To',
-              ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 16),
+                      child: CurrencyDropdown(
+                        onCurrencyChanged: updateFromCurrency,
+                        hint: 'From',
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_right_alt,
+                      size: 32,
+                      color: Colors.grey[700],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 16),
+                      child: CurrencyDropdown(
+                        onCurrencyChanged: updateToCurrency,
+                        hint: 'To',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      color: Colors.green[200],
+                      padding: EdgeInsets.all(4),
+                      margin: EdgeInsets.only(top: 16),
+                      child: Text(
+                        // toCurrency.name is null at first, do something about this.
+                        getResultFormatted(),
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -89,10 +133,13 @@ class CurrencyDropdown extends StatefulWidget {
   final CurrencyCallback onCurrencyChanged;
   final String hint;
 
-  CurrencyDropdown({Key key, @required this.onCurrencyChanged, @required this.hint}) : super(key: key);
+  CurrencyDropdown(
+      {Key key, @required this.onCurrencyChanged, @required this.hint})
+      : super(key: key);
 
   @override
-  _CurrencyDropdownState createState() => _CurrencyDropdownState(onCurrencyChanged: this.onCurrencyChanged, hint: this.hint);
+  _CurrencyDropdownState createState() => _CurrencyDropdownState(
+      onCurrencyChanged: this.onCurrencyChanged, hint: this.hint);
 }
 
 class _CurrencyDropdownState extends State<CurrencyDropdown> {
@@ -104,10 +151,10 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   static Currency curSek = Currency('SEK', 1.00);
   static Currency curUsd = Currency('USD', 0.20);
   static List<Currency> currencies = [curEur, curSek, curUsd];
-  Currency selectedCurrency = curEur;
+  Currency selectedCurrency;
 
-  _CurrencyDropdownState({@required this.onCurrencyChanged, @required this.hint});
-
+  _CurrencyDropdownState(
+      {@required this.onCurrencyChanged, @required this.hint});
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +169,10 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
         selectedCurrency = newCurrency;
       },
       items: currencies.map((Currency currency) {
-            return DropdownMenuItem<Currency>(
-              value: currency,
-              child: Text(currency.name),
-            );
+        return DropdownMenuItem<Currency>(
+          value: currency,
+          child: Text(currency.name),
+        );
       }).toList(),
     );
   }
