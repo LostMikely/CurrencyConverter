@@ -74,28 +74,24 @@ class _MainAppPageState extends State<MainAppPage> {
           body: Center(
             child: DataTable(
               columns: const <DataColumn>[
-
                 DataColumn(
                   label: Text(
                     '  ',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
-
                 DataColumn(
                   label: Text(
                     'EUR',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
-
                 DataColumn(
                   label: Text(
                     'SEK',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
-
                 DataColumn(
                   label: Text(
                     'USD',
@@ -104,8 +100,6 @@ class _MainAppPageState extends State<MainAppPage> {
                 ),
               ],
               rows: const <DataRow>[
-
-
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('EUR')),
@@ -114,7 +108,6 @@ class _MainAppPageState extends State<MainAppPage> {
                     DataCell(Text('66')),
                   ],
                 ),
-
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('SEK')),
@@ -124,7 +117,6 @@ class _MainAppPageState extends State<MainAppPage> {
                   ],
                 ),
                 DataRow(
-
                   cells: <DataCell>[
                     DataCell(Text('USD')),
                     DataCell(Text('27')),
