@@ -54,12 +54,38 @@ class _MainAppPageState extends State<MainAppPage> {
   String getResultCurrencyName() => (toCurrency != null) ? ' ' + toCurrency.name : '';
   String getResultFormatted() => currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(2) + getResultCurrencyName();
 
+  void openExchangeRatesPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Exchange Rates'),
+          ),
+          body: const Center(
+            child: Text(
+              'Insert table here',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        );
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text('Currency Converter'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.table_view_outlined),
+              onPressed: () {
+                openExchangeRatesPage(context);
+              },
+            ),
+          ],
         ),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
