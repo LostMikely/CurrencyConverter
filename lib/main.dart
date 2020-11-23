@@ -52,7 +52,7 @@ class _MainAppPageState extends State<MainAppPage> {
 
   String getInputCurrencyName() => (fromCurrency != null) ? ' ' + fromCurrency.name : '';
   String getResultCurrencyName() => (toCurrency != null) ? ' ' + toCurrency.name : '';
-  String getResultFormatted() => currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(2) + getResultCurrencyName();
+  String getResultFormatted() => currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(3) + getResultCurrencyName();
 
   void openExchangeRatesPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(
@@ -174,11 +174,14 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   final CurrencyCallback onCurrencyChanged;
   final String hint;
 
-  // 'GBP', 'CNY', 'JPY', 'KRW'
   static Currency curEur = Currency('EUR', 1.0);
   static Currency curSek = Currency('SEK', 0.0977427);
   static Currency curUsd = Currency('USD', 0.845273);
-  static List<Currency> currencies = [curEur, curSek, curUsd];
+  static Currency curGbp = Currency('GBP', 1.12364);
+  static Currency curCny = Currency('CNY', 0.128277);
+  static Currency curJpy = Currency('JPY', 0.00808749);
+  static Currency curKrw = Currency('KRW', 0.000757060);
+  static List<Currency> currencies = [curEur, curSek, curUsd, curGbp, curCny, curJpy, curKrw];
   Currency selectedCurrency;
 
   _CurrencyDropdownState(
