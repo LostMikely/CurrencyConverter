@@ -48,9 +48,11 @@ class _MainAppPageState extends State<MainAppPage> {
   void onAmountChanged(String string) =>
       setState(() => amount = double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
 
+  double currencyConversion(Currency fromCurrency, Currency toCurrency, double amount) => (fromCurrency != null && toCurrency != null) ? ((amount * fromCurrency.rate) / toCurrency.rate) : 0.0;
+
   String getInputCurrencyName() => (fromCurrency != null) ? ' ' + fromCurrency.name : '';
   String getResultCurrencyName() => (toCurrency != null) ? ' ' + toCurrency.name : '';
-  String getResultFormatted() => amount.toStringAsFixed(2) + getResultCurrencyName();
+  String getResultFormatted() => currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(2) + getResultCurrencyName();
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +149,9 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   final String hint;
 
   // 'GBP', 'CNY', 'JPY', 'KRW'
-  static Currency curEur = Currency('EUR', 0.19);
-  static Currency curSek = Currency('SEK', 1.00);
-  static Currency curUsd = Currency('USD', 0.20);
+  static Currency curEur = Currency('EUR', 1.0);
+  static Currency curSek = Currency('SEK', 0.0977427);
+  static Currency curUsd = Currency('USD', 0.845273);
   static List<Currency> currencies = [curEur, curSek, curUsd];
   Currency selectedCurrency;
 
