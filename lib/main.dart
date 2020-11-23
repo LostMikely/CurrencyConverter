@@ -73,6 +73,7 @@ class _MainAppPageState extends State<MainAppPage> {
           ),
           body: Center(
             child: DataTable(
+              columnSpacing: 20,
               columns: const <DataColumn>[
 
                 DataColumn(
