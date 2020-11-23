@@ -45,14 +45,24 @@ class _MainAppPageState extends State<MainAppPage> {
   void updateToCurrency(Currency currency) =>
       setState(() => toCurrency = currency);
 
-  void onAmountChanged(String string) =>
-      setState(() => amount = double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
+  void onAmountChanged(String string) => setState(() => amount =
+      double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
 
-  double currencyConversion(Currency fromCurrency, Currency toCurrency, double amount) => (fromCurrency != null && toCurrency != null) ? ((amount * fromCurrency.rate) / toCurrency.rate) : 0.0;
+  double currencyConversion(
+          Currency fromCurrency, Currency toCurrency, double amount) =>
+      (fromCurrency != null && toCurrency != null)
+          ? ((amount * fromCurrency.rate) / toCurrency.rate)
+          : 0.0;
 
-  String getInputCurrencyName() => (fromCurrency != null) ? ' ' + fromCurrency.name : '';
-  String getResultCurrencyName() => (toCurrency != null) ? ' ' + toCurrency.name : '';
-  String getResultFormatted() => currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(3) + getResultCurrencyName();
+  String getInputCurrencyName() =>
+      (fromCurrency != null) ? ' ' + fromCurrency.name : '';
+
+  String getResultCurrencyName() =>
+      (toCurrency != null) ? ' ' + toCurrency.name : '';
+
+  String getResultFormatted() =>
+      currencyConversion(fromCurrency, toCurrency, amount).toStringAsFixed(3) +
+      getResultCurrencyName();
 
   void openExchangeRatesPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(
@@ -61,10 +71,68 @@ class _MainAppPageState extends State<MainAppPage> {
           appBar: AppBar(
             title: const Text('Exchange Rates'),
           ),
-          body: const Center(
-            child: Text(
-              'Insert table here',
-              style: TextStyle(fontSize: 24),
+          body: Center(
+            child: DataTable(
+              columns: const <DataColumn>[
+
+                DataColumn(
+                  label: Text(
+                    '  ',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'EUR',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'SEK',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'USD',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+              ],
+              rows: const <DataRow>[
+
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('EUR')),
+                    DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                  ],
+                ),
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('SEK')),
+                    DataCell(Text('43')),
+                    DataCell(Text('1')),
+                    DataCell(Text('466')),
+                  ],
+                ),
+                DataRow(
+
+                  cells: <DataCell>[
+                    DataCell(Text('USD')),
+                    DataCell(Text('27')),
+                    DataCell(Text('456')),
+                    DataCell(Text('1')),
+                  ],
+                ),
+              ],
             ),
           ),
         );
@@ -181,7 +249,15 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   static Currency curCny = Currency('CNY', 0.128277);
   static Currency curJpy = Currency('JPY', 0.00808749);
   static Currency curKrw = Currency('KRW', 0.000757060);
-  static List<Currency> currencies = [curEur, curSek, curUsd, curGbp, curCny, curJpy, curKrw];
+  static List<Currency> currencies = [
+    curEur,
+    curSek,
+    curUsd,
+    curGbp,
+    curCny,
+    curJpy,
+    curKrw
+  ];
   Currency selectedCurrency;
 
   _CurrencyDropdownState(
