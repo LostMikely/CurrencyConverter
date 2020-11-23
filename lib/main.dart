@@ -74,54 +74,153 @@ class _MainAppPageState extends State<MainAppPage> {
           body: Center(
             child: DataTable(
               columns: const <DataColumn>[
+
                 DataColumn(
                   label: Text(
                     '  ',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+
                 DataColumn(
                   label: Text(
                     'EUR',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+
                 DataColumn(
                   label: Text(
                     'SEK',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+
                 DataColumn(
                   label: Text(
                     'USD',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+
+                DataColumn(
+                  label: Text(
+                    'GBP',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'CNY',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'JPY',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Text(
+                    'KRW',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
               ],
               rows: const <DataRow>[
+
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('EUR')),
                     DataCell(Text('1')),
-                    DataCell(Text('99')),
+                    DataCell(Text('5')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
                     DataCell(Text('66')),
                   ],
                 ),
+
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('SEK')),
-                    DataCell(Text('43')),
                     DataCell(Text('1')),
-                    DataCell(Text('466')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
                   ],
                 ),
+
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('USD')),
-                    DataCell(Text('27')),
-                    DataCell(Text('456')),
                     DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                  ],
+                ),
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('GBP')),
+                    DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                  ],
+                ),
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('CNY')),
+                    DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                  ],
+                ),
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('JPY')),
+                    DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                  ],
+                ),
+
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('KRW')),
+                    DataCell(Text('1')),
+                    DataCell(Text('99')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
+                    DataCell(Text('66')),
                   ],
                 ),
               ],
