@@ -150,8 +150,8 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('SEK')),
+                    DataCell(Text('33')),
                     DataCell(Text('1')),
-                    DataCell(Text('99')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
@@ -163,9 +163,9 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('USD')),
-                    DataCell(Text('1')),
+                    DataCell(Text('144')),
                     DataCell(Text('99')),
-                    DataCell(Text('66')),
+                    DataCell(Text('1')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
@@ -176,10 +176,10 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('GBP')),
-                    DataCell(Text('1')),
+                    DataCell(Text('44')),
                     DataCell(Text('99')),
                     DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text('1')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
@@ -189,11 +189,11 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('CNY')),
-                    DataCell(Text('1')),
+                    DataCell(Text('21')),
                     DataCell(Text('99')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text('1')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                   ],
@@ -202,12 +202,12 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('JPY')),
-                    DataCell(Text('1')),
+                    DataCell(Text('13')),
                     DataCell(Text('99')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text('1')),
                     DataCell(Text('66')),
                   ],
                 ),
@@ -215,13 +215,13 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('KRW')),
-                    DataCell(Text('1')),
+                    DataCell(Text('13')),
                     DataCell(Text('99')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
                     DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text('1')),
                   ],
                 ),
               ],
