@@ -66,14 +66,20 @@ class _MainAppPageState extends State<MainAppPage> {
 
   void openExchangeRatesPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(
-      builder: (BuildContext context) {
+      builder: (context) {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Exchange Rates'),
           ),
-          body: Center(
-            child: DataTable(
-              columnSpacing: 20,
+          body: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[ 
+
+             DataTable(
+              columnSpacing: 40,
               columns: const <DataColumn>[
 
                 DataColumn(
@@ -132,100 +138,104 @@ class _MainAppPageState extends State<MainAppPage> {
                   ),
                 ),
               ],
-              rows: const <DataRow>[
+              rows:  <DataRow>[
+
+                //_CurrencyDropdownState.curEur   const
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('EUR')),
-                    DataCell(Text('1')),
-                    DataCell(Text('5')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('SEK')),
-                    DataCell(Text('33')),
-                    DataCell(Text('1')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curSek, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('USD')),
-                    DataCell(Text('144')),
-                    DataCell(Text('99')),
-                    DataCell(Text('1')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curUsd, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('GBP')),
-                    DataCell(Text('44')),
-                    DataCell(Text('99')),
-                    DataCell(Text('66')),
-                    DataCell(Text('1')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curGbp, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('CNY')),
-                    DataCell(Text('21')),
-                    DataCell(Text('99')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('1')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curCny, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('JPY')),
-                    DataCell(Text('13')),
-                    DataCell(Text('99')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('1')),
-                    DataCell(Text('66')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curJpy, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
 
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('KRW')),
-                    DataCell(Text('13')),
-                    DataCell(Text('99')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('66')),
-                    DataCell(Text('1')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curCny, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curJpy, 1).toStringAsFixed(5))),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curKrw, _CurrencyDropdownState.curKrw, 1).toStringAsFixed(5))),
                   ],
                 ),
               ],
             ),
+         ]
+        )    
           ),
         );
       },
