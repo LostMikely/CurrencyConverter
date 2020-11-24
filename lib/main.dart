@@ -140,7 +140,7 @@ class _MainAppPageState extends State<MainAppPage> {
               ],
               rows:  <DataRow>[
 
-                //_CurrencyDropdownState.curEur   const
+                
 
                 DataRow(
                   cells: <DataCell>[
