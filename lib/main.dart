@@ -33,9 +33,6 @@ class _MainAppPageState extends State<MainAppPage> {
   Currency toCurrency;
   double amount = 0.0;
 
-  Future<http.Response> fetchRates() {
-    return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
-  }
 
   @override
   void dispose() {
@@ -397,4 +394,32 @@ class Currency {
   final double rate;
 
   const Currency(this.name, this.rate);
+}
+
+Future<http.Response> fetchRates() {
+  return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
+}
+
+class Rates {
+  final double eur;
+  final double sek;
+  final double usd;
+  final double gbp;
+  final double cny;
+  final double jpy;
+  final double krw;
+
+  Rates({this.eur, this.sek, this.usd, this.gbp, this.cny, this.jpy, this.krw});
+
+  factory Rates.fromJson(Map<String, dynamic> json) {
+    return Rates(
+      eur: json['eur'],
+      sek: json['sek'],
+      usd: json['usd'],
+      gbp: json['gbp'],
+      cny: json['cny'],
+      jpy: json['jpy'],
+      krw: json['krw'],
+    );
+  }
 }
