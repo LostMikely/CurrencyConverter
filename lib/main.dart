@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,10 @@ class _MainAppPageState extends State<MainAppPage> {
   Currency fromCurrency;
   Currency toCurrency;
   double amount = 0.0;
+
+  Future<http.Response> fetchRates() {
+    return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
+  }
 
   @override
   void dispose() {
