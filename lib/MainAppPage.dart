@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 import 'Currency.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+
+import 'Currency.dart';
+import 'Currency.dart';
+import 'Currency.dart';
+
+
+
+
 
 class MainAppPage extends StatefulWidget {
   MainAppPage({Key key}) : super(key: key);
@@ -14,6 +25,15 @@ class _MainAppPageState extends State<MainAppPage> {
   String fromCurrency;
   String toCurrency;
   double amount = 0.0;
+  Future<RateList> futureRates;
+
+
+  @override
+  void initState(){
+    super.initState();
+    futureRates = getRateList();
+    loadCurrencyHolderData();
+  }
 
   @override
   void dispose() {
@@ -21,6 +41,32 @@ class _MainAppPageState extends State<MainAppPage> {
     amountController.dispose();
     super.dispose();
   }
+
+  void loadCurrencyHolderData(){
+    Text temp;
+     CurrencyHolder.currencies.forEach((k, v) {
+
+       futureRates.then((value)  => CurrencyHolder.currencies[k]=  value.rates[k]);
+
+
+    });
+  }
+
+  FutureBuilder<RateList> findCurrencyRate (String cur){
+    return  FutureBuilder<RateList>(
+      future: futureRates,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data.rates[cur].toStringAsFixed(5));
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        // By default
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
 
   void updateFromCurrency(String currency) =>
       setState(() => fromCurrency = currency);
@@ -33,9 +79,11 @@ class _MainAppPageState extends State<MainAppPage> {
 
   double currencyConversion(
       String fromCurrency, String toCurrency, double amount) =>
-      (fromCurrency != null && toCurrency != null)
-          ? ((amount * CurrencyHolder.currencies[fromCurrency]) / CurrencyHolder.currencies[toCurrency])
+      (fromCurrency != null && toCurrency != null )
+          ? ((amount * CurrencyHolder.currencies[toCurrency]) / CurrencyHolder.currencies[fromCurrency])
           : 0.0;
+
+
 
   String getInputCurrencyName() =>
       (fromCurrency != null) ? ' ' + fromCurrency : '';
@@ -48,6 +96,7 @@ class _MainAppPageState extends State<MainAppPage> {
           getResultCurrencyName();
 
   void openExchangeRatesPage(BuildContext context) {
+    loadCurrencyHolderData();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return Scaffold(

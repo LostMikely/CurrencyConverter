@@ -85,6 +85,7 @@ class RateList{
   final Map<String, dynamic> rates;
 
 
+
   RateList({this.success, this.timestamp, this.base, this.date, this.rates});
 
   factory RateList.fromJson(Map<String, dynamic> json){

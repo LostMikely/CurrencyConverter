@@ -1,9 +1,5 @@
-import 'dart:ui';
-
+import 'MainAppPage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +17,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+/*
 class MainAppPage extends StatefulWidget {
   MainAppPage({Key key}) : super(key: key);
 
@@ -466,3 +474,4 @@ Future<RateList> getRateList() async {
   }
 }
 
+*/
