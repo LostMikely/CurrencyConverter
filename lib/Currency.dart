@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 typedef void CurrencyCallback(String currency);
 
@@ -64,36 +63,30 @@ class CurrencyHolder {
   };
 }
 
-Future<RateList> getRateList() async {
-  final response = await http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
-
-  if(response.statusCode == 200){
-    return RateList.fromJson(json.decode(response.body));
-
-  } else {
-
-    return null;
-  }
+Future<http.Response> fetchRates() {
+  return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
 }
 
+class Rates {
+  final double eur;
+  final double sek;
+  final double usd;
+  final double gbp;
+  final double cny;
+  final double jpy;
+  final double krw;
 
-class RateList{
-  final bool success;
-  final int timestamp;
-  final String base;
-  final String date;
-  final Map<String, dynamic> rates;
+  Rates({this.eur, this.sek, this.usd, this.gbp, this.cny, this.jpy, this.krw});
 
-
-  RateList({this.success, this.timestamp, this.base, this.date, this.rates});
-
-  factory RateList.fromJson(Map<String, dynamic> json){
-    return RateList(
-        success: json["success"],
-        timestamp: json["timestamp"],
-        base: json["base"],
-        date: json["date"],
-        rates: json["rates"]
+  factory Rates.fromJson(Map<String, dynamic> json) {
+    return Rates(
+      eur: json['eur'],
+      sek: json['sek'],
+      usd: json['usd'],
+      gbp: json['gbp'],
+      cny: json['cny'],
+      jpy: json['jpy'],
+      krw: json['krw'],
     );
   }
 }
