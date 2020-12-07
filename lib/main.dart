@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
 
 void main() {
   runApp(MyApp());
@@ -29,20 +27,12 @@ class MainAppPage extends StatefulWidget {
 }
 
 class _MainAppPageState extends State<MainAppPage> {
-
   final amountController = TextEditingController();
-   Future<RateList> futureRates;
 
   Currency fromCurrency;
   Currency toCurrency;
   double amount = 0.0;
 
-
-  @override
-  void initState(){
-    super.initState();
-    futureRates = getRateList();
-  }
 
   @override
   void dispose() {
@@ -59,28 +49,6 @@ class _MainAppPageState extends State<MainAppPage> {
 
   void onAmountChanged(String string) => setState(() => amount =
       double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
-
-
-
-  FutureBuilder<RateList> findCurrencyRate (String cur){
-
-  return  FutureBuilder<RateList>(
-      future: futureRates,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.rates[cur].toStringAsFixed(5));
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-
-        // By default, show a loading spinner.
-        return CircularProgressIndicator();
-      },
-    );
-
-
-
-  }
 
   double currencyConversion(
           Currency fromCurrency, Currency toCurrency, double amount) =>
@@ -99,7 +67,6 @@ class _MainAppPageState extends State<MainAppPage> {
       getResultCurrencyName();
 
   void openExchangeRatesPage(BuildContext context) {
-
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return Scaffold(
@@ -180,7 +147,7 @@ class _MainAppPageState extends State<MainAppPage> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text('EUR')),
-                    DataCell(findCurrencyRate('SEK')),
+                    DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curEur, 1).toStringAsFixed(5))),
                     DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curSek, 1).toStringAsFixed(5))),
                     DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curUsd, 1).toStringAsFixed(5))),
                     DataCell(Text(currencyConversion(_CurrencyDropdownState.curEur, _CurrencyDropdownState.curGbp, 1).toStringAsFixed(5))),
@@ -379,10 +346,8 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   final CurrencyCallback onCurrencyChanged;
   final String hint;
 
-
-
   static Currency curEur = Currency('EUR', 1.0);
-  static Currency curSek = Currency('SEK', 0.0977427); //0.0977427
+  static Currency curSek = Currency('SEK', 0.0977427);
   static Currency curUsd = Currency('USD', 0.845273);
   static Currency curGbp = Currency('GBP', 1.12364);
   static Currency curCny = Currency('CNY', 0.128277);
@@ -404,7 +369,6 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
 
   @override
   Widget build(BuildContext context) {
-   // futureRates.then((value) => rateList=value);
     return DropdownButton<Currency>(
       hint: Text(hint),
       icon: Icon(Icons.arrow_downward),
@@ -432,37 +396,30 @@ class Currency {
   const Currency(this.name, this.rate);
 }
 
+Future<http.Response> fetchRates() {
+  return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
+}
 
-class RateList{
-  final bool success;
-  final int timestamp;
-  final String base;
-  final String date;
-  final Map<String, dynamic> rates;
+class Rates {
+  final double eur;
+  final double sek;
+  final double usd;
+  final double gbp;
+  final double cny;
+  final double jpy;
+  final double krw;
 
+  Rates({this.eur, this.sek, this.usd, this.gbp, this.cny, this.jpy, this.krw});
 
-  RateList({this.success, this.timestamp, this.base, this.date, this.rates});
-
-  factory RateList.fromJson(Map<String, dynamic> json){
-    return RateList(
-        success: json["success"],
-        timestamp: json["timestamp"],
-        base: json["base"],
-        date: json["date"],
-        rates: json["rates"]
+  factory Rates.fromJson(Map<String, dynamic> json) {
+    return Rates(
+      eur: json['eur'],
+      sek: json['sek'],
+      usd: json['usd'],
+      gbp: json['gbp'],
+      cny: json['cny'],
+      jpy: json['jpy'],
+      krw: json['krw'],
     );
   }
 }
-
-Future<RateList> getRateList() async {
-  final response = await http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
-
-  if(response.statusCode == 200){
-    return RateList.fromJson(json.decode(response.body));
-
-  } else {
-
-    return null;
-  }
-}
-
