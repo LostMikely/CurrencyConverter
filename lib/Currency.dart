@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 typedef void CurrencyCallback(String currency);
 
@@ -60,4 +61,32 @@ class CurrencyHolder {
     'JPY' : 0.00808749,
     'KRW' : 0.000757060
   };
+}
+
+Future<http.Response> fetchRates() {
+  return http.get('http://data.fixer.io/api/latest?access_key=c9adcc50bd651ddb64dcf0a8cb2cb5b8');
+}
+
+class Rates {
+  final double eur;
+  final double sek;
+  final double usd;
+  final double gbp;
+  final double cny;
+  final double jpy;
+  final double krw;
+
+  Rates({this.eur, this.sek, this.usd, this.gbp, this.cny, this.jpy, this.krw});
+
+  factory Rates.fromJson(Map<String, dynamic> json) {
+    return Rates(
+      eur: json['eur'],
+      sek: json['sek'],
+      usd: json['usd'],
+      gbp: json['gbp'],
+      cny: json['cny'],
+      jpy: json['jpy'],
+      krw: json['krw'],
+    );
+  }
 }
