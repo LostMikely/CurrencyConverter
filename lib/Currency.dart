@@ -70,9 +70,7 @@ Future<RateList> getRateList() async {
 
   if(response.statusCode == 200){
     return RateList.fromJson(json.decode(response.body));
-
   } else {
-
     return null;
   }
 }

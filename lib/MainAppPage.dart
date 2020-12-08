@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
 
 import 'Currency.dart';
@@ -36,12 +34,8 @@ class _MainAppPageState extends State<MainAppPage> {
   }
 
   void loadCurrencyHolderData(){
-    Text temp;
-     CurrencyHolder.currencies.forEach((k, v) {
-
-       futureRates.then((value)  => CurrencyHolder.currencies[k]=  value.rates[k]);
-
-
+    CurrencyHolder.currencies.forEach((k, v) {
+      futureRates.then((value) => CurrencyHolder.currencies[k] = value.rates[k]);
     });
   }
 
