@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -30,7 +31,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      hint: Text(hint),
+      //hint: Text(hint),
       icon: Icon(Icons.arrow_downward),
       value: selectedCurrency,
       iconSize: 24,
