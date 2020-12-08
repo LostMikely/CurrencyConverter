@@ -7,30 +7,27 @@ typedef void CurrencyCallback(String currency);
 
 class CurrencyDropdown extends StatefulWidget {
   final CurrencyCallback onCurrencyChanged;
-  final String selectedCurrency;
+  final String defaultCurrency;
   final String hint;
 
   CurrencyDropdown(
-      {Key key, @required this.onCurrencyChanged, @required this.hint, @required this.selectedCurrency})
+      {Key key, @required this.onCurrencyChanged, @required this.hint, @required this.defaultCurrency})
       : super(key: key);
 
   @override
-  _CurrencyDropdownState createState() => _CurrencyDropdownState(
-      onCurrencyChanged: this.onCurrencyChanged, hint: this.hint, selectedCurrency: this.selectedCurrency);
+  _CurrencyDropdownState createState() => _CurrencyDropdownState();
 }
 
 class _CurrencyDropdownState extends State<CurrencyDropdown> {
-  final CurrencyCallback onCurrencyChanged;
-  final String hint;
-
   String selectedCurrency;
-
-  _CurrencyDropdownState(
-      {@required this.onCurrencyChanged, @required this.hint, @required this.selectedCurrency});
-
+  @override
+  void initState() {
+    selectedCurrency = widget.defaultCurrency;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    onCurrencyChanged(selectedCurrency);
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() => widget.onCurrencyChanged(selectedCurrency)));
     return DropdownButton<String>(
       //hint: Text(hint),
       icon: Icon(Icons.arrow_downward),
@@ -38,8 +35,10 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
       iconSize: 24,
       elevation: 16,
       onChanged: (String newCurrency) {
-        selectedCurrency = newCurrency;
-        setState(() => onCurrencyChanged(newCurrency));
+        setState(() {
+          selectedCurrency = newCurrency;
+          widget.onCurrencyChanged(newCurrency);
+        });
       },
       items: CurrencyHolder.currencies.map((String currency, double rate) {
         return MapEntry(

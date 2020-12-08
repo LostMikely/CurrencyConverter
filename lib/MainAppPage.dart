@@ -60,9 +60,8 @@ class _MainAppPageState extends State<MainAppPage> {
     );
   }
 
-
-  void updateFromCurrency(String currency) => fromCurrency = currency;
-  void updateToCurrency(String currency) => toCurrency = currency;
+  void updateFromCurrency(String currency) => setState(() => fromCurrency = currency);
+  void updateToCurrency(String currency) => setState(() => toCurrency = currency);
 
   void onAmountChanged(String string) => setState(() => amount =
       double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
@@ -306,7 +305,7 @@ class _MainAppPageState extends State<MainAppPage> {
                       child: CurrencyDropdown(
                         onCurrencyChanged: updateFromCurrency,
                         hint: 'From',
-                        selectedCurrency: 'EUR',
+                        defaultCurrency: 'EUR',
                       ),
                     ),
                     Icon(
@@ -319,7 +318,7 @@ class _MainAppPageState extends State<MainAppPage> {
                       child: CurrencyDropdown(
                         onCurrencyChanged: updateToCurrency,
                         hint: 'To',
-                        selectedCurrency: 'SEK',
+                        defaultCurrency: 'SEK',
                       ),
                     ),
                   ],
