@@ -5,10 +5,6 @@ import 'dart:async';
 
 import 'Currency.dart';
 
-
-
-
-
 class MainAppPage extends StatefulWidget {
   MainAppPage({Key key}) : super(key: key);
 
@@ -65,11 +61,8 @@ class _MainAppPageState extends State<MainAppPage> {
   }
 
 
-  void updateFromCurrency(String currency) =>
-      setState(() => fromCurrency = currency);
-
-  void updateToCurrency(String currency) =>
-      setState(() => toCurrency = currency);
+  void updateFromCurrency(String currency) => fromCurrency = currency;
+  void updateToCurrency(String currency) => toCurrency = currency;
 
   void onAmountChanged(String string) => setState(() => amount =
       double.tryParse(amountController.text.replaceAll(' ', '')) ?? 0.0);
@@ -77,10 +70,8 @@ class _MainAppPageState extends State<MainAppPage> {
   double currencyConversion(
       String fromCurrency, String toCurrency, double amount) =>
       (fromCurrency != null && toCurrency != null )
-          ? ((amount * CurrencyHolder.currencies[toCurrency]) / CurrencyHolder.currencies[fromCurrency])
+          ? ((amount * CurrencyHolder.currencies[fromCurrency]) / CurrencyHolder.currencies[toCurrency])
           : 0.0;
-
-
 
   String getInputCurrencyName() =>
       (fromCurrency != null) ? ' ' + fromCurrency : '';
@@ -340,7 +331,6 @@ class _MainAppPageState extends State<MainAppPage> {
                       padding: EdgeInsets.all(4),
                       margin: EdgeInsets.only(top: 16),
                       child: Text(
-                        // toCurrency.name is null at first, do something about this.
                         getResultFormatted(),
                         style: TextStyle(fontSize: 16),
                       ),

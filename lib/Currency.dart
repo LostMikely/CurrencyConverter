@@ -30,6 +30,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    onCurrencyChanged(selectedCurrency);
     return DropdownButton<String>(
       //hint: Text(hint),
       icon: Icon(Icons.arrow_downward),
@@ -38,7 +39,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
       elevation: 16,
       onChanged: (String newCurrency) {
         selectedCurrency = newCurrency;
-        onCurrencyChanged(newCurrency);
+        setState(() => onCurrencyChanged(newCurrency));
       },
       items: CurrencyHolder.currencies.map((String currency, double rate) {
         return MapEntry(
