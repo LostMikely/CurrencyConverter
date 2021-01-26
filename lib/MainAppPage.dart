@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:http/http.dart' as http;
 
 import 'Currency.dart';
@@ -36,10 +36,11 @@ class _MainAppPageState extends State<MainAppPage> {
 
   String fromCurrency;
   String toCurrency;
-  Future<String> defaultCurrency;
   double amount = 0.0;
   Future<RateList> futureRates;
   Future<Position> futurePosition;
+
+  GlobalKey<CurrencyDropdownState> _fromCurrencyDropdown = GlobalKey();
 
   UserPosition userCoordinates = UserPosition();
 
@@ -47,12 +48,14 @@ class _MainAppPageState extends State<MainAppPage> {
   void initState() {
     super.initState();
     futureRates = getRateList();
+    loadCurrencyHolderData();
+    fromCurrency = null;
 
     _determinePosition().then((value) => setState(() {
       userCoordinates.latitude = value.latitude;
       userCoordinates.longitude = value.longitude;
     })).then((value) {
-      userCoordinates.getCurrencyString().then((value) { defaultCurrency = value; });
+      userCoordinates.getCurrencyString().then((value) => setState(() { _fromCurrencyDropdown.currentState.setSelectedCurrency(value); }));
     });
   }
 
@@ -93,7 +96,7 @@ class _MainAppPageState extends State<MainAppPage> {
   double currencyConversion(
       String fromCurrency, String toCurrency, double amount) =>
       (fromCurrency != null && toCurrency != null )
-          ? ((amount * CurrencyHolder.currencies[fromCurrency]) / CurrencyHolder.currencies[toCurrency])
+          ? ((amount * CurrencyHolder.currencies[toCurrency]) / CurrencyHolder.currencies[fromCurrency])
           : 0.0;
 
   String getInputCurrencyName() =>
@@ -107,7 +110,6 @@ class _MainAppPageState extends State<MainAppPage> {
           getResultCurrencyName();
 
   void openExchangeRatesPage(BuildContext context) {
-    loadCurrencyHolderData();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return Scaffold(
@@ -120,7 +122,6 @@ class _MainAppPageState extends State<MainAppPage> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-
                     DataTable(
                       columnSpacing: 40,
                       columns: const <DataColumn>[
@@ -327,9 +328,9 @@ class _MainAppPageState extends State<MainAppPage> {
                     Container(
                       margin: EdgeInsets.only(right: 16),
                       child: CurrencyDropdown(
+                        key: _fromCurrencyDropdown,
                         onCurrencyChanged: updateFromCurrency,
                         hint: 'From',
-                        defaultCurrency: 'EUR',
                       ),
                     ),
                     Icon(

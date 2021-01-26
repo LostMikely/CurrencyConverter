@@ -11,20 +11,30 @@ class CurrencyDropdown extends StatefulWidget {
   final String hint;
 
   CurrencyDropdown(
-      {Key key, @required this.onCurrencyChanged, @required this.hint, @required this.defaultCurrency})
+      {Key key, @required this.onCurrencyChanged, @required this.hint, this.defaultCurrency})
       : super(key: key);
 
   @override
-  _CurrencyDropdownState createState() => _CurrencyDropdownState();
+  CurrencyDropdownState createState() => CurrencyDropdownState();
 }
 
-class _CurrencyDropdownState extends State<CurrencyDropdown> {
+class CurrencyDropdownState extends State<CurrencyDropdown> {
   String selectedCurrency;
   @override
   void initState() {
-    selectedCurrency = widget.defaultCurrency;
+    if(widget.defaultCurrency != null) {
+      selectedCurrency = widget.defaultCurrency;
+    }
     super.initState();
   }
+
+  void setSelectedCurrency(String currency)
+  {
+    setState(() {
+      selectedCurrency = currency;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() => widget.onCurrencyChanged(selectedCurrency)));
@@ -56,12 +66,12 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
 class CurrencyHolder {
   static Map<String, double> currencies = {
     'EUR' : 1.0,
-    'SEK' : 0.0977427,
-    'USD' : 0.845273,
-    'GBP' : 1.12364,
-    'CNY' : 0.128277,
-    'JPY' : 0.00808749,
-    'KRW' : 0.000757060
+    'SEK' : 10.09163,
+    'USD' : 1.21609,
+    'GBP' : 0.88560,
+    'CNY' : 7.86229,
+    'JPY' : 126.06276,
+    'KRW' : 1341.54551
   };
 }
 
@@ -82,8 +92,6 @@ class RateList{
   final String base;
   final String date;
   final Map<String, dynamic> rates;
-
-
 
   RateList({this.success, this.timestamp, this.base, this.date, this.rates});
 
