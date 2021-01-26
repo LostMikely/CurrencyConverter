@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:geolocator/geolocator.dart';
+import 'package:opencage_geocoder/opencage_geocoder.dart';
+import 'package:http/http.dart' as http;
 
 import 'Currency.dart';
 
@@ -10,20 +15,45 @@ class MainAppPage extends StatefulWidget {
   _MainAppPageState createState() => _MainAppPageState();
 }
 
+class UserPosition {
+  double latitude;
+  double longitude;
+
+  @override
+  String toString() {
+    return latitude.toString() + ', ' + longitude.toString();
+  }
+
+  Future<String> getCurrencyString() async {
+    final response = await http.get('https://api.opencagedata.com/geocode/v1/json?key=1710e48cd0304aebbec7a7698fbea888&q=$latitude,$longitude');
+    dynamic responseJson = json.decode(response.body);
+    return responseJson['results'][0]['annotations']['currency']['iso_code'];
+  }
+}
+
 class _MainAppPageState extends State<MainAppPage> {
   final amountController = TextEditingController();
 
   String fromCurrency;
   String toCurrency;
+  Future<String> defaultCurrency;
   double amount = 0.0;
   Future<RateList> futureRates;
+  Future<Position> futurePosition;
 
+  UserPosition userCoordinates = UserPosition();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     futureRates = getRateList();
-    loadCurrencyHolderData();
+
+    _determinePosition().then((value) => setState(() {
+      userCoordinates.latitude = value.latitude;
+      userCoordinates.longitude = value.longitude;
+    })).then((value) {
+      userCoordinates.getCurrencyString().then((value) { defaultCurrency = value; });
+    });
   }
 
   @override
@@ -330,11 +360,49 @@ class _MainAppPageState extends State<MainAppPage> {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container (
+                      margin: EdgeInsets.only(top: 16),
+                      child: Text(
+                        userCoordinates.toString(),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission is permanently denied, we cannot request permissions.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return Future.error(
+            'Location permission is denied (actual value: $permission).');
+      }
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 }
